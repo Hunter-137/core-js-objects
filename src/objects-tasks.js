@@ -18,7 +18,8 @@
  *    shallowCopy({}) => {}
  */
 function shallowCopy(obj) {
-  return Object.create(obj);
+  const obj2 = JSON.parse(JSON.stringify(obj));
+  return obj2;
   // throw new Error('Not implemented');
 }
 
@@ -35,7 +36,12 @@ function shallowCopy(obj) {
  */
 function mergeObjects(objects) {
   // throw new Error('Not implemented');
-  return Object.assign({}, ...objects);
+  // return Object.assign({}, ...objects);
+  // пройдусь по ключам, найду одинаковое, сложу их, затем переведу в один объект
+
+  objects.forEach((obj) => {
+    Object.keys(obj);
+  });
 }
 
 /**
@@ -55,10 +61,14 @@ function removeProperties(obj, keys) {
   // throw new Error('Not implemented');
   // const prepare = Object.keys(obj).forEach((elem) => delete keys[elem]);
   // return prepare;
+
   // for (const key of keys) {
   //   delete obj[key];
   // }
   // return obj;
+
+  // попробовать обычный for
+
   const filteredKeys = Object.keys(obj).filter((key) => !keys.includes(key));
   return Object.assign({}, ...filteredKeys.map((key) => ({ [key]: obj[key] })));
 }
@@ -75,8 +85,16 @@ function removeProperties(obj, keys) {
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 2}) => true
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 3}) => false
  */
-function compareObjects(/* obj1, obj2 */) {
-  throw new Error('Not implemented');
+function compareObjects(obj1, obj2) {
+  // throw new Error('Not implemented');
+  const firstKey = Object.keys(obj1);
+  const firstVal = Object.values(obj1);
+  const secondKey = Object.keys(obj2);
+  const secondVal = Object.values(obj2);
+  if (firstKey === secondKey && firstVal === secondVal) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -90,8 +108,12 @@ function compareObjects(/* obj1, obj2 */) {
  *    isEmptyObject({}) => true
  *    isEmptyObject({a: 1}) => false
  */
-function isEmptyObject(/* obj */) {
-  throw new Error('Not implemented');
+function isEmptyObject(obj) {
+  const prepare = Object.keys(obj);
+  if (prepare.length === 0) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -173,8 +195,9 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  const prepare = Object.assign(obj);
+  return JSON.stringify(prepare);
 }
 
 /**
