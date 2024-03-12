@@ -34,15 +34,68 @@ function shallowCopy(obj) {
  *    mergeObjects([{a: 1, b: 2}, {b: 3, c: 5}]) => {a: 1, b: 5, c: 5}
  *    mergeObjects([]) => {}
  */
-function mergeObjects(objects) {
-  // throw new Error('Not implemented');
-  // return Object.assign({}, ...objects);
-  // пройдусь по ключам, найду одинаковое, сложу их, затем переведу в один объект
-
+function mergeObjects(/* objects */) {
+  const map = new Map();
   objects.forEach((obj) => {
-    Object.keys(obj);
+    for (const key in obj) {
+      map.set(key, map.has(key) ? map.get(key) + obj[key] : obj[key]);
+    }
   });
+  return Object.fromEntries(map);
+  // throw new Error('Not implemented');
+  // let keyArray = [];
+  // let valueArray = [];
+  // objects.forEach((element) => {
+  //   keyArray = [...keyArray, Object.keys(element)];
+  // });
+  // objects.forEach((element) => {
+  //   valueArray = [...valueArray, Object.values(element)];
+  // });
+  // console.log(keyArray);
+  // console.log(valueArray);
+  // for (let i = 0; i < keyArray.length; i += 1) {
+  //   for (let j = 0; j < keyArray.length; j += 1) {
+  //     const elementObj1 = keyArray[i][j];
+  //     console.log(elementObj1);
+  //   }
+  // }
+  // return objects.reduce((acc, obj) => {
+  //   for (const key in obj) {
+  //     console.log(key);
+  //     acc[key] = acc[key] ? acc[key] + obj[key] : obj[key];
+  //   }
+  //   return acc;
+  // }, {});
+  // let keyArr = [];
+  // objects.forEach((keyElems) => {
+  //   const keyElem = Object.keys(keyElems);
+  //   // console.log(value);
+  //   keyArr = [...keyArr, keyElem];
+  // });
+  // console.log(keyArr);
+  // let valArr = [];
+  // objects.forEach((valElems) => {
+  //   const valElem = Object.values(valElems);
+  //   // console.log(value);
+  //   valArr = [...valArr, valElem];
+  // });
+  // console.log(valArr);
+  // for (let i = 0; i < keyArr.length; i += 1) {
+  //   console.log(keyArr[i + 1][i]);
+  //   if (keyArr[i][i] === keyArr[1][i]) {
+  //     // console.log(valArr[i][i] + valArr[1][i]);
+  //   }
+  // }
+  // keyArr.forEach((elemArr) => {
+  //   if (elemArr[])
+  // });
 }
+// console.log(
+//   mergeObjects([
+//     { a: 1, b: 2 },
+//     { b: 3, c: 5 },
+//   ])
+// );
 
 /**
  * Removes a properties from an object.
@@ -87,14 +140,7 @@ function removeProperties(obj, keys) {
  */
 function compareObjects(obj1, obj2) {
   // throw new Error('Not implemented');
-  const firstKey = Object.keys(obj1);
-  const firstVal = Object.values(obj1);
-  const secondKey = Object.keys(obj2);
-  const secondVal = Object.values(obj2);
-  if (firstKey === secondKey && firstVal === secondVal) {
-    return true;
-  }
-  return false;
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
 /**
@@ -132,8 +178,9 @@ function isEmptyObject(obj) {
  *    immutableObj.newProp = 'new';
  *    console.log(immutableObj) => {a: 1, b: 2}
  */
-function makeImmutable(/* obj */) {
-  throw new Error('Not implemented');
+function makeImmutable(obj) {
+  // throw new Error('Not implemented');
+  return Object.freeze(obj);
 }
 
 /**
@@ -146,10 +193,34 @@ function makeImmutable(/* obj */) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  // throw new Error('Not implemented');
+  // const valueArr = Object.values(lettersObject);
+  // console.log(valueArr);
+  // const sort = valueArr.forEach((element) => {
+  //   return element.sort((a, b) => a - b);
+  // });
+  // console.log(sort);
+  // 1. Combine all positions using reduce:
+  const valueArrs = Object.values(lettersObject);
+  const keyArr = Object.keys(lettersObject);
+  // console.log(valueArrs);
+  // console.log(keyArr);
+  const combineArrs = valueArrs.reduce((acc, elem) => {
+    return [...acc, ...elem];
+  }, []);
+  // console.log(combineArrs);
+  // 2. Sort positions numerically:
+  const sortPositions = combineArrs.sort();
+  // console.log(sortPositions);
+  // 3. Build the word using reduce:
+  const result = sortPositions.reduce((acc, elem) => {
+    const word = keyArr.find((letter) => lettersObject[letter].includes(elem));
+    return word ? acc + word : acc;
+  }, '');
+  return result;
 }
-
+// console.log(makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }));
 /**
  * There is a queue for tickets to a popular movie.
  * The ticket seller sells one ticket at a time strictly in order and give the change.
@@ -211,9 +282,14 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  // throw new Error('Not implemented');
+  const parse = JSON.parse(json);
+  const newObj = Object.create(proto, parse);
+  return newObj;
 }
+// const r = fromJSON(Circle.prototype, '{"radius":10}');
+// console.log(r);
 
 /**
  * Sorts the specified array by country name first and city name
