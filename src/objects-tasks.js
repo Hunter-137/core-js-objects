@@ -35,13 +35,13 @@ function shallowCopy(obj) {
  *    mergeObjects([]) => {}
  */
 function mergeObjects(/* objects */) {
-  const map = new Map();
-  objects.forEach((obj) => {
-    for (const key in obj) {
-      map.set(key, map.has(key) ? map.get(key) + obj[key] : obj[key]);
-    }
-  });
-  return Object.fromEntries(map);
+  // const map = new Map();
+  // objects.forEach((obj) => {
+  //   for (const key in obj) {
+  //     map.set(key, map.has(key) ? map.get(key) + obj[key] : obj[key]);
+  //   }
+  // });
+  // return Object.fromEntries(map);
   // throw new Error('Not implemented');
   // let keyArray = [];
   // let valueArray = [];
