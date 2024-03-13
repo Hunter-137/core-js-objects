@@ -194,6 +194,17 @@ function makeImmutable(obj) {
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
 function makeWord(lettersObject) {
+  const result = [];
+  const keysArr = Object.keys(lettersObject);
+  keysArr.forEach((element) => {
+    // console.log(element);
+    // console.log(lettersObject[element]);
+    lettersObject[element].forEach((index) => {
+      result[index] = element;
+      // console.log(result[index]);
+    });
+  });
+  return result.join('');
   // throw new Error('Not implemented');
   // const valueArr = Object.values(lettersObject);
   // console.log(valueArr);
@@ -201,24 +212,24 @@ function makeWord(lettersObject) {
   //   return element.sort((a, b) => a - b);
   // });
   // console.log(sort);
-  // 1. Combine all positions using reduce:
-  const valueArrs = Object.values(lettersObject);
-  const keyArr = Object.keys(lettersObject);
-  // console.log(valueArrs);
-  // console.log(keyArr);
-  const combineArrs = valueArrs.reduce((acc, elem) => {
-    return [...acc, ...elem];
-  }, []);
-  // console.log(combineArrs);
-  // 2. Sort positions numerically:
-  const sortPositions = combineArrs.sort();
-  // console.log(sortPositions);
-  // 3. Build the word using reduce:
-  const result = sortPositions.reduce((acc, elem) => {
-    const word = keyArr.find((letter) => lettersObject[letter].includes(elem));
-    return word ? acc + word : acc;
-  }, '');
-  return result;
+  // // 1. Combine all positions using reduce:
+  // // console.log(valueArrs);
+  // // console.log(keyArr);
+  // // console.log(combineArrs);
+  // // console.log(sortPositions);
+  // const valueArrs = Object.values(lettersObject);
+  // const keyArr = Object.keys(lettersObject);
+  // const combineArrs = valueArrs.reduce((acc, elem) => {
+  //   return [...acc, ...elem];
+  // }, []);
+  // // 2. Sort positions numerically:
+  // const sortPositions = combineArrs.sort();
+  // // 3. Build the word using reduce:
+  // const result = sortPositions.reduce((acc, elem) => {
+  //   const word = keyArr.find((letter) => lettersObject[letter].includes(elem));
+  //   return word ? acc + word : acc;
+  // }, '');
+  // return result;
 }
 // console.log(makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }));
 /**
