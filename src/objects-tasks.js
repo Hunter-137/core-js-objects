@@ -18,8 +18,8 @@
  *    shallowCopy({}) => {}
  */
 function shallowCopy(obj) {
-  const obj2 = JSON.parse(JSON.stringify(obj));
-  return obj2;
+  return Object.assign(JSON.parse(JSON.stringify(obj)));
+  // return obj2;
   // throw new Error('Not implemented');
 }
 
@@ -34,11 +34,42 @@ function shallowCopy(obj) {
  *    mergeObjects([{a: 1, b: 2}, {b: 3, c: 5}]) => {a: 1, b: 5, c: 5}
  *    mergeObjects([]) => {}
  */
-function mergeObjects(/* objects */) {
+function mergeObjects(objects) {
+  const map = new Map();
+  objects.forEach((obj) => {
+    // console.log(obj);
+    const keys = Object.keys(obj);
+    // console.log(keys);
+    for (let i = 0; i < keys.length; i += 1) {
+      map.set(
+        keys[i],
+        map.has(keys[i]) ? map.get(keys[i]) + obj[keys[i]] : obj[keys[i]]
+      );
+    }
+  });
+  return Object.fromEntries(map);
+  // const arrKeyVal = [];
+  // const result = [];
+  // // console.log(map);
+  // objects.forEach((obj) => {
+  //   const keys = Object.keys(obj);
+  //   // console.log(keys);
+  //   for (let i = 0; i < keys.length; i += 1) {
+  //     if (!result.includes(keys[i])) {
+  //       result.push(keys[i]);
+  //     } else {
+  //     }
+  //   }
+  //   console.log(result);
+  // });
   // const map = new Map();
   // objects.forEach((obj) => {
-  //   for (const key in obj) {
-  //     map.set(key, map.has(key) ? map.get(key) + obj[key] : obj[key]);
+  //   const keys = Object.keys(obj);
+  //   for (let i = 0; i < keys.length; i += 1) {
+  //     map.set(
+  //       keys[i],
+  //       map.has(keys[i]) ? map.get(keys[i]) + obj[keys[i]] : obj[keys[i]]
+  //     );
   //   }
   // });
   // return Object.fromEntries(map);
@@ -246,9 +277,25 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  // throw new Error('Not implemented');
+  let change = 0;
+  let flag = true;
+  queue.forEach((money) => {
+    if (money === 25) {
+      change += 25;
+      flag = true;
+    }
+    if (money > 25) {
+      if (change - money < 0) {
+        flag = false;
+      }
+    }
+  });
+  return flag;
+  // console.log(change);
 }
+// console.log(sellTickets([25, 100]));
 
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
@@ -263,9 +310,25 @@ function sellTickets(/* queue */) {
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  // throw new Error('Not implemented');
+  class RectangleClass {
+    constructor(widthC, heightC) {
+      this.width = widthC;
+      this.height = heightC;
+    }
+
+    getArea() {
+      return this.width * this.height;
+    }
+  }
+  return new RectangleClass(width, height);
 }
+
+// const r = new Rectangle(10, 20);
+// console.log(r.width); // => 10
+// console.log(r.height); // => 20
+// console.log(r.getArea()); // => 200
 
 /**
  * Returns the JSON representation of specified object
