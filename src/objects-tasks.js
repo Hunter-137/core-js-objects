@@ -295,7 +295,8 @@ function sellTickets(queue) {
   return flag;
   // console.log(change);
 }
-// console.log(sellTickets([25, 100]));
+
+// console.log(sellTickets([25, 50]));
 
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
@@ -344,6 +345,7 @@ function getJSON(obj) {
   const prepare = Object.assign(obj);
   return JSON.stringify(prepare);
 }
+// console.log(getJSON([1, 2, 3]));
 
 /**
  * Returns the object of specified type from JSON representation
